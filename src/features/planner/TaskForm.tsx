@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { RepeatRule, Subject } from "../../domain/types";
 
 type TaskFormInput = {
@@ -26,6 +26,12 @@ export function TaskForm({ date, subjects, onCreateTask }: TaskFormProps) {
   const [endDate, setEndDate] = useState(date);
   const [weekdays, setWeekdays] = useState<number[]>([1, 2, 3, 4, 5]);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (!subjectId && subjects[0]) {
+      setSubjectId(subjects[0].id);
+    }
+  }, [subjectId, subjects]);
 
   function buildRepeatRule(): RepeatRule | null {
     if (repeatType === "none") return { type: "none" };

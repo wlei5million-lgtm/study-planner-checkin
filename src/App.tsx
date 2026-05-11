@@ -4,6 +4,7 @@ import { EmptyState } from "./components/EmptyState";
 import { createTask, exportAllData, importAllData, listSubjects, listTasksByDate, updateTask } from "./data/repositories";
 import { ensureSeedData } from "./data/seed";
 import { todayIso } from "./domain/date";
+import { expandRepeatDates } from "./domain/repeatRules";
 import { pauseTask, startTask, stopTask } from "./domain/timer";
 import type { RepeatRule, StudyTask, Subject } from "./domain/types";
 import { DashboardView } from "./features/dashboard/DashboardView";
@@ -41,19 +42,23 @@ export default function App() {
     repeatRule: RepeatRule;
   }) {
     const now = new Date().toISOString();
-    await createTask({
-      id: newId("task"),
-      title: input.title,
-      content: input.content,
-      subjectId: input.subjectId,
-      plannedDurationMinutes: input.plannedDurationMinutes,
-      plannedDate: date,
-      actualDurationSeconds: 0,
-      status: "planned",
-      repeatRule: { type: "none" },
-      createdAt: now,
-      updatedAt: now,
-    });
+    await Promise.all(
+      expandRepeatDates(input.repeatRule, date).map((plannedDate) =>
+        createTask({
+          id: newId("task"),
+          title: input.title,
+          content: input.content,
+          subjectId: input.subjectId,
+          plannedDurationMinutes: input.plannedDurationMinutes,
+          plannedDate,
+          actualDurationSeconds: 0,
+          status: "planned",
+          repeatRule: input.repeatRule,
+          createdAt: now,
+          updatedAt: now,
+        }),
+      ),
+    );
     await refresh();
   }
 
