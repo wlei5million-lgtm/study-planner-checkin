@@ -11,9 +11,10 @@ describe("App", () => {
     await appDb.open();
   });
 
-  it("renders the product shell", async () => {
+  it("renders the dashboard by default", async () => {
     render(<App />);
-    expect(await screen.findByText("学习计划与打卡统计助手")).toBeInTheDocument();
+    expect(await screen.findByText("今日概览")).toBeInTheDocument();
+    expect(screen.getByText("今日学习")).toBeInTheDocument();
   });
 
   it("opens the planner section", async () => {

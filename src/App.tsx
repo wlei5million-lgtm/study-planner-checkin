@@ -6,6 +6,7 @@ import { ensureSeedData } from "./data/seed";
 import { todayIso } from "./domain/date";
 import { pauseTask, startTask, stopTask } from "./domain/timer";
 import type { StudyTask, Subject } from "./domain/types";
+import { DashboardView } from "./features/dashboard/DashboardView";
 import { PlannerView } from "./features/planner/PlannerView";
 
 function newId(prefix: string): string {
@@ -53,7 +54,9 @@ export default function App() {
   }
 
   const content =
-    activeView === "planner" ? (
+    activeView === "dashboard" ? (
+      <DashboardView date={date} subjects={subjects} tasks={tasks} />
+    ) : activeView === "planner" ? (
       <PlannerView
         date={date}
         subjects={subjects}
