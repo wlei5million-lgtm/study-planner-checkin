@@ -16,13 +16,22 @@ function newId(prefix: string): string {
   return `${prefix}-${crypto.randomUUID()}`;
 }
 
+function readTextFile(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.addEventListener("load", () => resolve(String(reader.result ?? "")));
+    reader.addEventListener("error", () => reject(reader.error ?? new Error("无法读取备份文件")));
+    reader.readAsText(file);
+  });
+}
+
 export default function App() {
   const [activeView, setActiveView] = useState<AppView>("dashboard");
   const [date, setDate] = useState(todayIso());
   const [subjects, setSubjects] = useState<Subject[]>([]);
   const [tasks, setTasks] = useState<StudyTask[]>([]);
   const [activeStartByTaskId, setActiveStartByTaskId] = useState<Record<string, string>>({});
-  const [backupText, setBackupText] = useState("");
+  const [backupStatus, setBackupStatus] = useState("");
 
   async function refresh() {
     await ensureSeedData();
@@ -67,6 +76,29 @@ export default function App() {
     await refresh();
   }
 
+  async function handleExportBackup() {
+    const backup = await exportAllData();
+    const blob = new Blob([backup], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `study-planner-backup-${date}.json`;
+    link.click();
+    URL.revokeObjectURL(url);
+    setBackupStatus("备份已下载");
+  }
+
+  async function handleImportBackupFile(file: File) {
+    if (!window.confirm("导入会覆盖当前本地数据，确定继续吗？")) return;
+    try {
+      await importAllData(await readTextFile(file));
+      await refresh();
+      setBackupStatus("导入成功");
+    } catch {
+      setBackupStatus("备份文件格式不正确");
+    }
+  }
+
   const content =
     activeView === "dashboard" ? (
       <DashboardView date={date} subjects={subjects} tasks={tasks} />
@@ -97,14 +129,10 @@ export default function App() {
       <StatsView subjects={subjects} tasks={tasks} />
     ) : activeView === "settings" ? (
       <SettingsView
-        backupText={backupText}
+        backupStatus={backupStatus}
         subjects={subjects}
-        onBackupTextChange={setBackupText}
-        onExportBackup={async () => setBackupText(await exportAllData())}
-        onImportBackup={async () => {
-          await importAllData(backupText);
-          await refresh();
-        }}
+        onExportBackup={handleExportBackup}
+        onImportBackupFile={handleImportBackupFile}
       />
     ) : (
       <EmptyState title="好学伴" description="学习计划与打卡统计助手" />

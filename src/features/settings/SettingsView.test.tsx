@@ -5,28 +5,29 @@ import { makeSubject } from "../../test/factories";
 import { SettingsView } from "./SettingsView";
 
 describe("SettingsView", () => {
-  it("renders subjects and runs backup actions", async () => {
+  it("renders file backup actions and passes selected files", async () => {
     const user = userEvent.setup();
-    const onExport = vi.fn().mockResolvedValue('{"version":1}');
-    const onImport = vi.fn().mockResolvedValue(undefined);
+    const onExport = vi.fn().mockResolvedValue(undefined);
+    const onImportFile = vi.fn().mockResolvedValue(undefined);
+    const file = new File(['{"version":1,"subjects":[],"tasks":[]}'], "backup.json", { type: "application/json" });
 
     render(
       <SettingsView
-        backupText=""
+        backupStatus="导入成功"
         subjects={[makeSubject({ name: "语文" })]}
-        onBackupTextChange={() => {}}
         onExportBackup={onExport}
-        onImportBackup={onImport}
+        onImportBackupFile={onImportFile}
       />,
     );
 
     expect(screen.getByRole("heading", { name: "设置与备份" })).toBeInTheDocument();
     expect(screen.getByText("语文")).toBeInTheDocument();
+    expect(screen.getByText("导入成功")).toBeInTheDocument();
 
-    await user.click(screen.getByRole("button", { name: "导出备份" }));
-    await user.click(screen.getByRole("button", { name: "导入备份" }));
+    await user.click(screen.getByRole("button", { name: "下载备份" }));
+    await user.upload(screen.getByLabelText("选择备份文件"), file);
 
     expect(onExport).toHaveBeenCalledTimes(1);
-    expect(onImport).toHaveBeenCalledTimes(1);
+    expect(onImportFile).toHaveBeenCalledWith(file);
   });
 });

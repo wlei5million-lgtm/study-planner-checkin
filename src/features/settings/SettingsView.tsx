@@ -2,18 +2,16 @@ import type { Subject } from "../../domain/types";
 
 type SettingsViewProps = {
   subjects: Subject[];
-  backupText: string;
-  onBackupTextChange: (value: string) => void;
+  backupStatus: string;
   onExportBackup: () => Promise<void>;
-  onImportBackup: () => Promise<void>;
+  onImportBackupFile: (file: File) => Promise<void>;
 };
 
 export function SettingsView({
   subjects,
-  backupText,
-  onBackupTextChange,
+  backupStatus,
   onExportBackup,
-  onImportBackup,
+  onImportBackupFile,
 }: SettingsViewProps) {
   return (
     <section className="view-stack">
@@ -36,20 +34,26 @@ export function SettingsView({
           </div>
         </section>
         <section className="settings-panel">
-          <h2>备份导入</h2>
-          <textarea
-            aria-label="备份内容"
-            onChange={(event) => onBackupTextChange(event.target.value)}
-            rows={10}
-            value={backupText}
-          />
+          <h2>数据备份</h2>
+          <p className="settings-note">导出完整本地数据，或选择备份文件恢复。导入前会再次确认。</p>
+          {backupStatus ? <p className="backup-status">{backupStatus}</p> : null}
           <div className="settings-actions">
             <button onClick={onExportBackup} type="button">
-              导出备份
+              下载备份
             </button>
-            <button onClick={onImportBackup} type="button">
-              导入备份
-            </button>
+            <label className="file-import-button">
+              选择备份文件
+              <input
+                accept=".json,application/json"
+                aria-label="选择备份文件"
+                onChange={(event) => {
+                  const file = event.target.files?.[0];
+                  if (file) void onImportBackupFile(file);
+                  event.currentTarget.value = "";
+                }}
+                type="file"
+              />
+            </label>
           </div>
         </section>
       </div>
