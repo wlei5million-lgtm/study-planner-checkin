@@ -228,6 +228,71 @@ textarea {
   color: #315ba7;
 }
 
+.settings-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: minmax(220px, 0.8fr) minmax(320px, 1.2fr);
+}
+
+.settings-panel {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(19, 41, 79, 0.08);
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+}
+
+.settings-panel h2 {
+  font-size: 18px;
+  margin: 0;
+}
+
+.subject-list {
+  display: grid;
+  gap: 10px;
+}
+
+.subject-chip {
+  align-items: center;
+  border: 1px solid #d8e0ec;
+  border-radius: 8px;
+  display: flex;
+  gap: 10px;
+  padding: 10px 12px;
+}
+
+.subject-chip span {
+  border-radius: 999px;
+  display: inline-block;
+  height: 12px;
+  width: 12px;
+}
+
+.settings-panel textarea {
+  border: 1px solid #d8e0ec;
+  border-radius: 8px;
+  min-height: 220px;
+  padding: 12px;
+  resize: vertical;
+  width: 100%;
+}
+
+.settings-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.settings-actions button {
+  background: #315ba7;
+  border: 0;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 700;
+  padding: 10px 14px;
+}
+
 @media (max-width: 900px) {
   .metric-grid {
     grid-template-columns: repeat(2, minmax(140px, 1fr));
@@ -250,7 +315,8 @@ textarea {
   }
 
   .task-form,
-  .task-card {
+  .task-card,
+  .settings-grid {
     grid-template-columns: 1fr;
   }
 }

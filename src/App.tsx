@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { AppLayout, type AppView } from "./components/AppLayout";
 import { EmptyState } from "./components/EmptyState";
-import { createTask, listSubjects, listTasksByDate, updateTask } from "./data/repositories";
+import { createTask, exportAllData, importAllData, listSubjects, listTasksByDate, updateTask } from "./data/repositories";
 import { ensureSeedData } from "./data/seed";
 import { todayIso } from "./domain/date";
 import { pauseTask, startTask, stopTask } from "./domain/timer";
 import type { StudyTask, Subject } from "./domain/types";
 import { DashboardView } from "./features/dashboard/DashboardView";
 import { PlannerView } from "./features/planner/PlannerView";
+import { SettingsView } from "./features/settings/SettingsView";
 import { StatsView } from "./features/stats/StatsView";
 
 function newId(prefix: string): string {
@@ -20,6 +21,7 @@ export default function App() {
   const [subjects, setSubjects] = useState<Subject[]>([]);
   const [tasks, setTasks] = useState<StudyTask[]>([]);
   const [activeStartByTaskId, setActiveStartByTaskId] = useState<Record<string, string>>({});
+  const [backupText, setBackupText] = useState("");
 
   async function refresh() {
     await ensureSeedData();
@@ -81,6 +83,17 @@ export default function App() {
       />
     ) : activeView === "stats" ? (
       <StatsView subjects={subjects} tasks={tasks} />
+    ) : activeView === "settings" ? (
+      <SettingsView
+        backupText={backupText}
+        subjects={subjects}
+        onBackupTextChange={setBackupText}
+        onExportBackup={async () => setBackupText(await exportAllData())}
+        onImportBackup={async () => {
+          await importAllData(backupText);
+          await refresh();
+        }}
+      />
     ) : (
       <EmptyState title="好学伴" description="学习计划与打卡统计助手" />
     );
