@@ -13,24 +13,103 @@ body {
   min-width: 320px;
 }
 
-.app-shell {
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+.app-frame {
+  display: grid;
+  grid-template-columns: 220px 1fr;
   min-height: 100vh;
-  padding: 24px;
 }
 
-.hero-panel {
-  border-radius: 8px;
-  background: linear-gradient(135deg, #244b91, #13294f);
+.sidebar {
+  background: #13294f;
   color: #fff;
+  padding: 20px;
+}
+
+.brand {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 24px;
+}
+
+.brand span {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 13px;
+}
+
+.nav-list {
+  display: grid;
+  gap: 8px;
+}
+
+.nav-button {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  border-radius: 8px;
+  color: #dbe7ff;
+  cursor: pointer;
+  display: flex;
+  gap: 10px;
+  padding: 12px;
+  text-align: left;
+}
+
+.nav-button.active,
+.nav-button:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+.content-panel {
   padding: 24px;
 }
 
-.eyebrow {
-  margin: 0 0 8px;
-  opacity: 0.85;
+.metric-card,
+.empty-state {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(19, 41, 79, 0.08);
+  padding: 18px;
 }
 
-h1 {
+.metric-card {
+  display: grid;
+  gap: 8px;
+}
+
+.metric-card strong {
+  color: #315ba7;
+  font-size: 28px;
+}
+
+.empty-state h1 {
+  margin: 0 0 8px;
+}
+
+.empty-state p {
+  color: #536175;
   margin: 0;
-  font-size: 36px;
+}
+
+@media (max-width: 760px) {
+  .app-frame {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+  }
+
+  .nav-list {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
