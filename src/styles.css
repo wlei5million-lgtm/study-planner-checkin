@@ -114,6 +114,35 @@ textarea {
   font-size: 28px;
 }
 
+.date-navigator {
+  align-items: end;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.date-navigator button {
+  background: #315ba7;
+  border: 0;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 700;
+  padding: 10px 14px;
+}
+
+.date-navigator label {
+  display: grid;
+  gap: 6px;
+  font-weight: 700;
+}
+
+.date-navigator input {
+  border: 1px solid #d8e0ec;
+  border-radius: 8px;
+  padding: 9px 10px;
+}
+
 .eyebrow-dark {
   color: #315ba7;
   font-weight: 700;
