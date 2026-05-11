@@ -1,0 +1,6 @@
+.worktrees
+.worktrees/
+node_modules/
+dist/
+*.log
+cdp-proxy.*.log
