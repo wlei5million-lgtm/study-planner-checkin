@@ -202,6 +202,32 @@ textarea {
   grid-template-columns: repeat(4, minmax(140px, 1fr));
 }
 
+.chart-panel {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(19, 41, 79, 0.08);
+  min-height: 300px;
+  padding: 18px;
+}
+
+.stats-list {
+  display: grid;
+  gap: 10px;
+}
+
+.stats-row {
+  align-items: center;
+  background: #fff;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  padding: 14px 16px;
+}
+
+.stats-row strong {
+  color: #315ba7;
+}
+
 @media (max-width: 900px) {
   .metric-grid {
     grid-template-columns: repeat(2, minmax(140px, 1fr));

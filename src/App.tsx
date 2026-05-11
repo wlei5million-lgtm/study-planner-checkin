@@ -8,6 +8,7 @@ import { pauseTask, startTask, stopTask } from "./domain/timer";
 import type { StudyTask, Subject } from "./domain/types";
 import { DashboardView } from "./features/dashboard/DashboardView";
 import { PlannerView } from "./features/planner/PlannerView";
+import { StatsView } from "./features/stats/StatsView";
 
 function newId(prefix: string): string {
   return `${prefix}-${crypto.randomUUID()}`;
@@ -78,6 +79,8 @@ export default function App() {
           void persistTask(stopTask(task, startedAt, now));
         }}
       />
+    ) : activeView === "stats" ? (
+      <StatsView subjects={subjects} tasks={tasks} />
     ) : (
       <EmptyState title="好学伴" description="学习计划与打卡统计助手" />
     );
