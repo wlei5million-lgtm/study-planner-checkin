@@ -5,7 +5,7 @@ import { createTask, exportAllData, importAllData, listSubjects, listTasksByDate
 import { ensureSeedData } from "./data/seed";
 import { todayIso } from "./domain/date";
 import { pauseTask, startTask, stopTask } from "./domain/timer";
-import type { StudyTask, Subject } from "./domain/types";
+import type { RepeatRule, StudyTask, Subject } from "./domain/types";
 import { DashboardView } from "./features/dashboard/DashboardView";
 import { PlannerView } from "./features/planner/PlannerView";
 import { SettingsView } from "./features/settings/SettingsView";
@@ -17,7 +17,7 @@ function newId(prefix: string): string {
 
 export default function App() {
   const [activeView, setActiveView] = useState<AppView>("dashboard");
-  const [date] = useState(todayIso());
+  const [date, setDate] = useState(todayIso());
   const [subjects, setSubjects] = useState<Subject[]>([]);
   const [tasks, setTasks] = useState<StudyTask[]>([]);
   const [activeStartByTaskId, setActiveStartByTaskId] = useState<Record<string, string>>({});
@@ -33,7 +33,13 @@ export default function App() {
     void refresh();
   }, [date]);
 
-  async function handleCreateTask(input: { title: string; content: string; plannedDurationMinutes: number; subjectId: string }) {
+  async function handleCreateTask(input: {
+    title: string;
+    content: string;
+    plannedDurationMinutes: number;
+    subjectId: string;
+    repeatRule: RepeatRule;
+  }) {
     const now = new Date().toISOString();
     await createTask({
       id: newId("task"),
@@ -65,6 +71,7 @@ export default function App() {
         subjects={subjects}
         tasks={tasks}
         onCreateTask={handleCreateTask}
+        onDateChange={setDate}
         onStartTask={(task) => {
           const now = new Date().toISOString();
           setActiveStartByTaskId((current) => ({ ...current, [task.id]: now }));

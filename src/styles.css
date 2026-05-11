@@ -176,6 +176,34 @@ textarea {
   grid-column: 1 / -1;
 }
 
+.weekday-picker {
+  border: 1px solid #d8e0ec;
+  border-radius: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  grid-column: 1 / -1;
+  padding: 12px;
+}
+
+.weekday-picker legend {
+  font-weight: 700;
+  padding: 0 6px;
+}
+
+.weekday-picker label {
+  align-items: center;
+  display: flex;
+  gap: 6px;
+}
+
+.form-error {
+  color: #c92a2a;
+  font-weight: 700;
+  grid-column: 1 / -1;
+  margin: 0;
+}
+
 .task-form button,
 .task-actions button {
   border: 0;
