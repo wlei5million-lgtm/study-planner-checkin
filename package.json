@@ -1,0 +1,35 @@
+{
+  "name": "study-planner-checkin",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "tsc -b --pretty false"
+  },
+  "dependencies": {
+    "date-fns": "^4.1.0",
+    "dexie": "^4.0.11",
+    "lucide-react": "^0.468.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "recharts": "^2.15.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.2.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/node": "^22.10.0",
+    "@types/chai": "^5.0.1",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "jsdom": "^25.0.1",
+    "typescript": "^5.8.0",
+    "vite": "^6.0.0",
+    "vitest": "^3.2.4"
+  }
+}

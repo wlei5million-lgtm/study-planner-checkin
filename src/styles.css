@@ -1,0 +1,36 @@
+:root {
+  font-family: "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+  color: #172033;
+  background: #eef3f8;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+}
+
+.app-shell {
+  min-height: 100vh;
+  padding: 24px;
+}
+
+.hero-panel {
+  border-radius: 8px;
+  background: linear-gradient(135deg, #244b91, #13294f);
+  color: #fff;
+  padding: 24px;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  opacity: 0.85;
+}
+
+h1 {
+  margin: 0;
+  font-size: 36px;
+}
